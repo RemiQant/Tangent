@@ -1,6 +1,6 @@
 import LandingNavbar from "../../components/shared/landing_navbar/LandingNavbar"
 import Hero from "../../components/sections/landing/Hero"
-import TheProblem from "@/components/sections/landing/TheProblem"
+import TheProblem from "../../components/sections/landing/TheProblem"
 
 type LandingProps = {
   startAnimations?: boolean
