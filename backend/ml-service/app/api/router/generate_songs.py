@@ -2,12 +2,13 @@ from fastapi import APIRouter, Request, HTTPException
 import logging
 from app.ml import generate_similar_songs, PredictRequest, PredictResponse
 from app.ml.exceptions import SongNotFoundError, InsufficientRecommendationsError
-
+from app.middleware.rate_limit import limiter
 
 logger = logging.getLogger("uvicorn.error")
 router = APIRouter()
 
 @router.post("/songs", response_model=PredictResponse)
+@limiter.limit("5/minute")
 def get_song_recommendations(payload: PredictRequest, request: Request):
     model = getattr(request.app.state, "knn_model", None)
     df = getattr(request.app.state, "music_df", None)
