@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.router.generate_songs import router as generate_songs_router
+from app.api.routers.generate_songs import router as generate_songs_router
 
 public_router = APIRouter()
 
