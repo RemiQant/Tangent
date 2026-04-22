@@ -9,7 +9,7 @@ from app.ml.constants import METADATA_COLS, FEATURE_COLS
 logger = logging.getLogger("uvicorn.error")
 
 def load_knn_model():
-    model_path = Path(__file__).parent / "knn_model.pkl"
+    model_path = Path(__file__).parent.parent.parent / "models" / "knn_model.pkl"
     
     try:
         model = joblib.load(model_path)

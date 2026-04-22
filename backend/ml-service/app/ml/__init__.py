@@ -1,6 +1,6 @@
-from app.ml.model import lifespan
-from app.ml.song_generator import generate_similar_songs
-from app.ml.schemas import PredictRequest, PredictResponse, SongRecommendation
+from app.ml import lifespan
+from app.ml.engine import generate_similar_songs
+from app.ml.schemas.engine_schema import PredictRequest, PredictResponse, SongRecommendation
 
 __all__ = [
     "lifespan",

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException
 import logging
 from app.ml import generate_similar_songs, PredictRequest, PredictResponse
-from app.ml.exceptions import SongNotFoundError, InsufficientRecommendationsError
+from app.core.ml_exceptions import SongNotFoundError, InsufficientRecommendationsError
 from app.middleware.rate_limit import limiter
 
 logger = logging.getLogger("uvicorn.error")
