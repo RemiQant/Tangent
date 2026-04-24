@@ -5,8 +5,10 @@ import pandas as pd
 from pathlib import Path
 from fastapi import FastAPI
 from app.ml.constants import METADATA_COLS, FEATURE_COLS
+from app.core.exceptions import LoadError
 
 logger = logging.getLogger("uvicorn.error")
+
 
 def load_knn_model():
     model_path = Path(__file__).parent.parent.parent / "models" / "knn_model.pkl"
@@ -16,11 +18,10 @@ def load_knn_model():
         logger.info("KNN model loaded successfully.")
         return model
     except FileNotFoundError:
-        logger.error(f"Cannot find model file at {model_path}")
-        raise RuntimeError("Server failed to start: Missing KNN model file.")
+        raise LoadError(f"Cannot find model file at {model_path}")
     except Exception as e:
-        logger.error(f"Failed to load KNN model: {e}")
-        raise RuntimeError('Server failed to start: Corrupted model file.')
+        raise LoadError(f"Failed to load KNN model: {str(e)}") from e
+
 
 def load_music_dataset():
     csv_path = Path(__file__).parent.parent.parent / "data" / "processed" / "spotify_features_scaled.csv"
@@ -31,16 +32,15 @@ def load_music_dataset():
         required_cols = set(METADATA_COLS) | set(FEATURE_COLS)
         missing_cols = required_cols - set(df.columns)
         if missing_cols:
-            raise RuntimeError(f"Missing columns {missing_cols}")
+            raise LoadError(f"Dataset is missing required columns: {sorted(missing_cols)}")
 
-        logger.info(f"Music dataset loaded successfully: {len(df)} tracks.")
+        logger.info("Music dataset loaded successfully: %s tracks.", len(df))
         return df
     except FileNotFoundError:
-        logger.error(f"Cannot find dataset at {csv_path}")
-        raise RuntimeError("Server failed to start: Missing dataset CSV.")
+        raise LoadError(f"Cannot find dataset at {csv_path}")
     except Exception as e:
-        logger.error(f"Failed to load dataset: {e}")
-        raise RuntimeError("Server failed to start: Could not read CSV.")
+        raise LoadError(f"Failed to load dataset: {str(e)}") from e
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
