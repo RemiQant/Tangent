@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api import api_router
-from app.ml import lifespan
+from app.ml.load import lifespan
 from app.middleware.cors import setup_cors
 from app.middleware.rate_limit import setup_limiter
 from app.core.exceptions import BaseAppException

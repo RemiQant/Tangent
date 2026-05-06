@@ -1,6 +1,6 @@
-from app.ml.schemas import PredictResponse, SongRecommendation
+from app.ml.schemas.engine_schema import PredictResponse, SongRecommendation
 from app.core.exceptions import SongNotFoundError, InsufficientRecommendationsError
-from app.ml.constants import FEATURE_COLS
+from app.ml.constants.song_constants import FEATURE_COLS
 
 __all__ = ["generate_similar_songs"]
 
