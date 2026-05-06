@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 from pathlib import Path
 from fastapi import FastAPI
-from app.ml.constants import METADATA_COLS, FEATURE_COLS
+from app.ml.constants.song_constants import METADATA_COLS, FEATURE_COLS
 from app.core.exceptions import LoadError
 
 logger = logging.getLogger("uvicorn.error")
