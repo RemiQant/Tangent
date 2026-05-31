@@ -18,7 +18,7 @@ export function Toast({ message, type, onDismiss }: ToastProps) {
 
   return (
     <div
-      role="alert"
+      role="status"
       aria-live="polite"
       className={clsx(
         'fixed bottom-6 right-6 z-[1000] flex items-center gap-sm px-md py-sm rounded-lg glass-panel shadow-glow-secondary max-w-sm',
