@@ -4,13 +4,13 @@ interface LinkProps {
   href: string
   children: React.ReactNode
   className?: string
-  'aria-current'?: string | boolean
+  'aria-current'?: React.AriaAttributes['aria-current']
   [key: string]: unknown
 }
 
-function NextLink({ href, children, className, ...rest }: LinkProps) {
+function NextLink({ href, children, className, 'aria-current': ariaCurrent, ...rest }: LinkProps) {
   return (
-    <a href={href} className={className} {...rest}>
+    <a href={href} className={className} aria-current={ariaCurrent} {...rest}>
       {children}
     </a>
   )
