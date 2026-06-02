@@ -243,5 +243,7 @@ $RECYCLE.BIN/
 ### Project Specific ###
 docs/**
 backend/ml-service/data/**
+backend/gateway/tmp/**
+backend/data/**
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,python,go
