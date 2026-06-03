@@ -15,7 +15,7 @@ importers:
         specifier: ^12.40.0
         version: 12.40.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       lucide-react:
-        specifier: ^1.17.0
+        specifier: 1.17.0
         version: 1.17.0(react@19.2.4)
       next:
         specifier: 16.2.6
@@ -49,7 +49,7 @@ importers:
         specifier: ^19
         version: 19.2.3(@types/react@19.2.15)
       '@vitejs/plugin-react':
-        specifier: ^6.0.2
+        specifier: 6.0.2
         version: 6.0.2(vite@8.0.14(@types/node@20.19.41)(jiti@1.21.7))
       autoprefixer:
         specifier: ^10.5.0
@@ -73,7 +73,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       vitest:
-        specifier: ^4.1.7
+        specifier: 4.1.7
         version: 4.1.7(@types/node@20.19.41)(jsdom@29.1.1)(vite@8.0.14(@types/node@20.19.41)(jiti@1.21.7))
 
 packages:
