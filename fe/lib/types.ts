@@ -75,9 +75,3 @@ export interface RecommendationResponse {
   total_recommendations: number
   recommendations: SongRecommendation[]
 }
-
-export interface ExportResult {
-  message: string
-  playlist_id: string
-  spotify_url: string
-}

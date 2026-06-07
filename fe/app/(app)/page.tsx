@@ -60,22 +60,6 @@ export default function GeneratorPage() {
     }
   }
 
-  async function handleAddToPlaylist(song: SongRecommendation) {
-    if (!selectedSong) return
-    try {
-      const result = await api.playlists.export(
-        `Tangent – ${selectedSong.name} Mix`,
-        [song.song_id]
-      )
-      showToast('Playlist exported! Opening Spotify…', 'success')
-      if (result.spotify_url && typeof window !== 'undefined') {
-        setTimeout(() => window.open(result.spotify_url, '_blank'), 800)
-      }
-    } catch (err: unknown) {
-      showToast(err instanceof Error ? err.message : 'Export failed', 'error')
-    }
-  }
-
   return (
     <motion.div
       initial={shouldAnimate ? { opacity: 0, y: 8 } : false}
@@ -148,10 +132,7 @@ export default function GeneratorPage() {
             >
               {recommendations.map((song) => (
                 <motion.div key={song.song_id} variants={shouldAnimate ? itemVariants : undefined} className="h-full">
-                  <SongRecommendationCard
-                    song={song}
-                    onAddToPlaylist={handleAddToPlaylist}
-                  />
+                  <SongRecommendationCard song={song} />
                 </motion.div>
               ))}
             </motion.div>
