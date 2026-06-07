@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import HistoryPage from '@/app/(app)/history/page'
 
@@ -22,14 +22,13 @@ describe('Generation History', () => {
     expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument()
   })
 
-  it('renders playlist cards', () => {
+  it('shows empty state when no history exists', () => {
     render(<HistoryPage />)
-    expect(screen.getAllByRole('article').length).toBeGreaterThan(0)
+    expect(screen.getByText(/no generation history yet/i)).toBeInTheDocument()
   })
 
-  it('filters playlists by search query', () => {
+  it('shows session count', () => {
     render(<HistoryPage />)
-    fireEvent.change(screen.getByPlaceholderText(/search/i), { target: { value: 'Gym' } })
-    expect(screen.getByText('Gym Hype 2024')).toBeInTheDocument()
+    expect(screen.getByText(/0 sessions/i)).toBeInTheDocument()
   })
 })

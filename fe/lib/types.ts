@@ -47,3 +47,37 @@ export interface GenerationResult {
   playlist: Playlist
   tracks: Track[]
 }
+
+export interface SongResult {
+  song_id: string
+  name: string
+  artists: string
+  album_art_url: string
+}
+
+export interface SongRecommendation {
+  song_id: string
+  name: string
+  artists: string
+  distance_score: number
+  danceability: number
+  energy: number
+  speechiness: number
+  acousticness: number
+  instrumentalness: number
+  liveness: number
+  valence: number
+  tempo: number
+}
+
+export interface RecommendationResponse {
+  seed_song_id: string
+  total_recommendations: number
+  recommendations: SongRecommendation[]
+}
+
+export interface ExportResult {
+  message: string
+  playlist_id: string
+  spotify_url: string
+}

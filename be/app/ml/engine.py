@@ -8,7 +8,7 @@ def generate_similar_songs(song_id: str, model, df, max_distance: float = 0.5) -
     song_matches = df[df['id'] == song_id]
 
     if len(song_matches) == 0:
-        raise SongNotFoundError(f"Song with ID '{song_id}' not found in dataset")
+        raise SongNotFoundError(song_id=song_id, message=f"Song with ID '{song_id}' not found in dataset")
     
     song_index = song_matches.index[0]
     seed_song_math = df.iloc[[song_index]][FEATURE_COLS]
@@ -24,7 +24,8 @@ def generate_similar_songs(song_id: str, model, df, max_distance: float = 0.5) -
 
     if len(filtered_indices) < 10:
         raise InsufficientRecommendationsError(
-            f"Failsafe triggered: only found {len(filtered_indices)} similar songs within max_distance={max_distance}"
+            song_id=song_id,
+            message=f"Failsafe triggered: only found {len(filtered_indices)} similar songs within max_distance={max_distance}",
         )
     
     recommendations_list = []

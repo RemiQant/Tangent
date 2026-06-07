@@ -30,7 +30,7 @@ describe('AtmosphericOrb', () => {
 
 describe('TextGradient', () => {
   it('renders children with gradient class', () => {
-    render(<TextGradient>SonicPro</TextGradient>)
-    expect(screen.getByText('SonicPro')).toHaveClass('text-gradient')
+    render(<TextGradient>Tangent</TextGradient>)
+    expect(screen.getByText('Tangent')).toHaveClass('text-gradient')
   })
 })

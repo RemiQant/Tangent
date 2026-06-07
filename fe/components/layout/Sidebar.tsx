@@ -6,10 +6,7 @@ import { TextGradient } from '@/components/ui/TextGradient'
 import { Music2 } from 'lucide-react'
 
 const navItems = [
-  { href: '/',          icon: 'sparkles' as const, label: 'Generator' },
-  { href: '/history',   icon: 'history'  as const, label: 'History'   },
-  { href: '/favorites', icon: 'star'     as const, label: 'Favorites' },
-  { href: '/stats',     icon: 'chart'    as const, label: 'AI Stats'  },
+  { href: '/', icon: 'sparkles' as const, label: 'Generator' },
 ]
 
 export function Sidebar() {
@@ -23,7 +20,7 @@ export function Sidebar() {
         </div>
         <div>
           <TextGradient as="div" className="text-title-lg font-bold leading-none">
-            SonicPro
+            Tangent
           </TextGradient>
           <p className="text-label-sm text-on-surface-variant">AI Playlist Engine</p>
         </div>

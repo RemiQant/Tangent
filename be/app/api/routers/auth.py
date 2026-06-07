@@ -16,6 +16,7 @@ SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 SPOTIFY_REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
 JWT_SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-for-dev")
 JWT_ALGORITHM = os.getenv("ALGORITHM", "HS256")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000/auth-callback")
 
 @router.get("/login")
 async def login_to_spotify():
@@ -100,11 +101,9 @@ async def spotify_callback(code: str = Query(...)):
         # 3. Issue a local session/JWT to the frontend
         jwt_payload = {
             "sub": str(user_id),
+            "name": username,
             "exp": datetime.now(timezone.utc) + timedelta(days=7)
         }
         session_token = jwt.encode(jwt_payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
         
-        return {
-            "message": "Successfully authenticated with Spotify!",
-            "token": session_token
-        }
+        return RedirectResponse(url=f"{FRONTEND_URL}?token={session_token}", status_code=302)

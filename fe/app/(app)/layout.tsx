@@ -1,18 +1,25 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-import { Sidebar } from '@/components/layout/Sidebar'
-import { BottomTabBar } from '@/components/layout/BottomTabBar'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { isAuthenticated } from '@/lib/auth'
+import { TopBar } from '@/components/layout/TopBar'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.replace('/login')
+    }
+  }, [router])
+
   return (
     <>
-      <Sidebar />
-      <main className="md:ml-[280px] min-h-dvh relative overflow-hidden pb-20 md:pb-0">
+      <TopBar />
+      <main className="min-h-dvh relative overflow-hidden pt-14">
         {children}
       </main>
-      <BottomTabBar currentPath={pathname} />
     </>
   )
 }

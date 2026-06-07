@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import GeneratorPage from '@/app/(app)/page'
 
@@ -14,24 +14,21 @@ vi.mock('framer-motion', () => ({
 describe('Generator Dashboard', () => {
   it('renders headline', () => {
     render(<GeneratorPage />)
-    expect(screen.getByRole('heading', { name: /extend your sound/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /discover your sound/i })).toBeInTheDocument()
   })
 
-  it('renders playlist input', () => {
+  it('renders song search input', () => {
     render(<GeneratorPage />)
-    expect(screen.getByRole('textbox')).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /search songs/i })).toBeInTheDocument()
   })
 
-  it('renders recent activity section', () => {
+  it('renders find similar songs button', () => {
     render(<GeneratorPage />)
-    expect(screen.getByText(/recent activity/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /find similar songs/i })).toBeInTheDocument()
   })
 
-  it('shows error on empty submit', async () => {
+  it('button is disabled when no song is selected', () => {
     render(<GeneratorPage />)
-    fireEvent.click(screen.getByRole('button', { name: /generate extension/i }))
-    await waitFor(() => {
-      expect(screen.getByText(/please paste a valid spotify/i)).toBeInTheDocument()
-    })
+    expect(screen.getByRole('button', { name: /find similar songs/i })).toBeDisabled()
   })
 })

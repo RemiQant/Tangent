@@ -22,9 +22,9 @@ describe('Favorites', () => {
     expect(screen.getByRole('heading', { name: /favorites/i })).toBeInTheDocument()
   })
 
-  it('shows only favorited playlists', () => {
+  it('shows empty state when no favorites exist', () => {
     render(<FavoritesPage />)
-    expect(screen.getAllByRole('article').length).toBeGreaterThan(0)
+    expect(screen.getByText(/no favorites yet/i)).toBeInTheDocument()
   })
 })
 
@@ -34,13 +34,15 @@ describe('AI Statistics', () => {
     expect(screen.getByRole('heading', { name: /performance analytics/i })).toBeInTheDocument()
   })
 
-  it('renders stat cards', () => {
+  it('renders stat cards with dynamic data', () => {
     render(<StatsPage />)
-    expect(screen.getByText('1,492')).toBeInTheDocument()
+    expect(screen.getByText('Songs Searched')).toBeInTheDocument()
+    expect(screen.getByText('Avg Match Score')).toBeInTheDocument()
+    expect(screen.getByText('Favorites Saved')).toBeInTheDocument()
   })
 
-  it('renders discovery growth chart', () => {
+  it('renders discovery growth section', () => {
     render(<StatsPage />)
-    expect(screen.getByLabelText(/discovery growth/i)).toBeInTheDocument()
+    expect(screen.getByText(/discovery growth/i)).toBeInTheDocument()
   })
 })

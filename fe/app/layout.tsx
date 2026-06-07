@@ -3,7 +3,7 @@ import { MotionProvider } from '@/components/providers/MotionProvider'
 import '@/app/globals.css'
 
 export const metadata: Metadata = {
-  title: 'SonicPro — AI Playlist Engine',
+  title: 'Tangent — AI Playlist Engine',
   description: 'Extend your Spotify playlists with AI-curated tracks',
 }
 

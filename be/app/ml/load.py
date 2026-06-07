@@ -46,8 +46,10 @@ def load_music_dataset():
 async def lifespan(app: FastAPI):
     app.state.knn_model = load_knn_model()
     app.state.music_df = load_music_dataset()
+    app.state.dataset_ids = set(app.state.music_df["id"].tolist())
 
     yield
 
     app.state.knn_model = None
     app.state.music_df = None
+    app.state.dataset_ids = None
