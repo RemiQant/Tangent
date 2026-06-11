@@ -1,5 +1,8 @@
+import logging
 import httpx
 from typing import List, Dict
+
+logger = logging.getLogger(__name__)
 
 class SpotifyService:
     def __init__(self, access_token: str):
@@ -43,7 +46,12 @@ class SpotifyService:
                     for artist in data.get("artists", []):
                         if artist and "id" in artist:
                             genres_map[artist["id"]] = artist.get("genres", [])
-                            
+                else:
+                    logger.warning(
+                        "Spotify get_artist_genres failed: status=%s artist_count=%d body=%s",
+                        response.status_code, len(chunk), response.text[:500],
+                    )
+
         return genres_map
         
     async def get_track_artists(self, track_ids: List[str]) -> Dict[str, str]:
@@ -71,7 +79,12 @@ class SpotifyService:
                         if track and track.get("artists"):
                             # Grab the primary (first) artist
                             track_to_artist[track["id"]] = track["artists"][0]["id"]
-                            
+                else:
+                    logger.warning(
+                        "Spotify get_track_artists failed: status=%s track_count=%d body=%s",
+                        response.status_code, len(chunk), response.text[:500],
+                    )
+
         return track_to_artist
 
     async def create_playlist(self, spotify_user_id: str, name: str) -> str:

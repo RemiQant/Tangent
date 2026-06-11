@@ -26,6 +26,18 @@ function FeatureBar({ label, value, color }: FeatureBarProps) {
   )
 }
 
+interface GenreBadgeProps {
+  family: string
+}
+
+function GenreBadge({ family }: GenreBadgeProps) {
+  return (
+    <span className="text-xs px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant">
+      {family}
+    </span>
+  )
+}
+
 interface SongRecommendationCardProps {
   song: SongRecommendation
 }
@@ -62,6 +74,14 @@ export function SongRecommendationCard({ song }: SongRecommendationCardProps) {
           <p className="text-xs text-on-surface-variant">match</p>
         </div>
       </div>
+
+      {song.genre_families.length > 0 && (
+        <div className="flex flex-wrap gap-1">
+          {song.genre_families.slice(0, 3).map((family) => (
+            <GenreBadge key={family} family={family} />
+          ))}
+        </div>
+      )}
 
       <div className="flex flex-col gap-2 flex-1">
         <FeatureBar label="Energy" value={song.energy} color="#53e076" />

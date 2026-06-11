@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, Info } from 'lucide-react'
 import { SongSearchInput } from '@/components/ui/SongSearchInput'
 import { SongRecommendationCard } from '@/components/ui/SongRecommendationCard'
 import { Toast } from '@/components/ui/Toast'
@@ -33,6 +33,7 @@ export default function GeneratorPage() {
   const [recommendations, setRecommendations] = useState<SongRecommendation[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [toast, setToast] = useState<ToastState | null>(null)
+  const [genreFiltered, setGenreFiltered] = useState(true)
 
   const showToast = useCallback((message: string, type: 'success' | 'error') => {
     setToast({ message, type })
@@ -46,6 +47,7 @@ export default function GeneratorPage() {
     try {
       const result = await api.recommendations.getSongs(selectedSong.song_id)
       setRecommendations(result.recommendations)
+      setGenreFiltered(result.genre_filtered)
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Something went wrong'
       if (msg.includes('Not enough')) {
@@ -113,6 +115,13 @@ export default function GeneratorPage() {
           <h2 className="text-label-lg text-on-surface-variant mb-md uppercase tracking-widest">
             {isLoading ? 'Searching…' : `${recommendations.length} Recommendations`}
           </h2>
+
+          {!isLoading && recommendations.length > 0 && !genreFiltered && (
+            <p className="flex items-center gap-2 text-body-sm text-on-surface-variant mb-md">
+              <Info className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+              Showing audio-similarity matches — genre info unavailable for this song.
+            </p>
+          )}
 
           {isLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">

@@ -4,6 +4,7 @@ from app.core.exceptions import LoadError
 from app.middleware.rate_limit import limiter
 from app.services.spotify import SpotifyService
 from app.services.filter import filter_songs_by_genre
+from app.services.genre_classifier import classify_genres
 from app.services.db_service import DBService
 import os
 import jwt
@@ -112,32 +113,41 @@ async def get_song_recommendations(
     unique_artist_ids = list(set(track_to_artist.values()))
     artist_genres = await spotify.get_artist_genres(unique_artist_ids)
     
-    # 5. Filter the mathematically similar songs by the seed song's genres
-    filtered_track_ids = filter_songs_by_genre(
+    # 5. Filter the mathematically similar songs by genre family
+    filter_result = filter_songs_by_genre(
         generated_track_ids=knn_track_ids,
         seed_genres=seed_genres,
         track_to_artist=track_to_artist,
         artist_genres=artist_genres,
         max_songs=30
     )
-    
-    # 6. Re-map the filtered IDs back to the rich SongRecommendation objects
-    # to maintain the original PredictResponse schema format
-    final_recommendations = [
-        rec for rec in knn_response.recommendations 
-        if rec.song_id in filtered_track_ids
-    ]
-    
+
+    # 6. Re-map the filtered IDs back to the rich SongRecommendation objects,
+    # attaching genre data for display
+    final_recommendations = []
+    for rec in knn_response.recommendations:
+        if rec.song_id not in filter_result.track_ids:
+            continue
+        final_recommendations.append(
+            rec.model_copy(update={
+                "genres": filter_result.track_genres.get(rec.song_id, []),
+                "genre_families": filter_result.track_genre_families.get(rec.song_id, []),
+            })
+        )
+
     # Fail-safe just in case extreme genre filtering removes too many songs
     if len(final_recommendations) < 10:
         raise HTTPException(
-            status_code=422, 
+            status_code=422,
             detail="Not enough songs left after genre filtering. Try a different seed track."
         )
-    
+
     # Return the clean, filtered response
     return PredictResponse(
         seed_song_id=payload.song_id,
         total_recommendations=len(final_recommendations),
-        recommendations=final_recommendations
+        recommendations=final_recommendations,
+        seed_genres=seed_genres,
+        seed_genre_families=sorted(classify_genres(seed_genres)),
+        genre_filtered=filter_result.genre_filtered,
     )

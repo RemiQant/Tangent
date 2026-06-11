@@ -68,10 +68,15 @@ export interface SongRecommendation {
   liveness: number
   valence: number
   tempo: number
+  genres: string[]
+  genre_families: string[]
 }
 
 export interface RecommendationResponse {
   seed_song_id: string
   total_recommendations: number
   recommendations: SongRecommendation[]
+  seed_genres: string[]
+  seed_genre_families: string[]
+  genre_filtered: boolean
 }

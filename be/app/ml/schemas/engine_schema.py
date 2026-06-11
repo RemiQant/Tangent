@@ -15,7 +15,7 @@ class SongRecommendation(BaseModel):
     name: str
     artists: str
     distance_score: float
-    
+
     danceability: float
     energy: float
     speechiness: float
@@ -25,7 +25,14 @@ class SongRecommendation(BaseModel):
     valence: float
     tempo: float
 
+    genres: List[str] = Field(default_factory=list)
+    genre_families: List[str] = Field(default_factory=list)
+
 class PredictResponse(BaseModel):
     seed_song_id: str
     total_recommendations: int
     recommendations: List[SongRecommendation]
+
+    seed_genres: List[str] = Field(default_factory=list)
+    seed_genre_families: List[str] = Field(default_factory=list)
+    genre_filtered: bool = True
