@@ -13,6 +13,10 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     ...(options.headers as Record<string, string> ?? {}),
   }
 
+  const baseUrl = getBaseUrl().replace(/\/$/, '') // Remove trailing slash if present
+  const cleanPath = path.replace(/^\//, '')      // Remove leading slash from the path if present
+  const fullUrl = `${baseUrl}/${cleanPath}`
+  
   const response = await fetch(`${getBaseUrl()}${path}`, { ...options, headers })
 
   if (response.status === 401) {
