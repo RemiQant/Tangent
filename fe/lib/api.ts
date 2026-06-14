@@ -17,7 +17,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const cleanPath = path.replace(/^\//, '')      // Remove leading slash from the path if present
   const fullUrl = `${baseUrl}/${cleanPath}`
   
-  const response = await fetch(`${getBaseUrl()}${path}`, { ...options, headers })
+  const response = await fetch(fullUrl, { ...options, headers })
 
   if (response.status === 401) {
     clearToken()
